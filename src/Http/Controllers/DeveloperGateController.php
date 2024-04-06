@@ -3,29 +3,45 @@
 namespace TomatoPHP\FilamentDeveloperGate\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Filament\Notifications\Notification;
+use Illuminate\Http\Request;
 
 class DeveloperGateController extends Controller
 {
-    public function login()
+    public function login(Request $request)
     {
-        return view('filament-developer-gate::login');
-    }
+        $request->validate([
+            'password' => 'required|min:6|string',
+            'old' => "required|string|url"
+        ]);
 
-    public function authenticate(Request $request)
-    {
-        $password = $request->password;
+        if(!session()->has('old_developer_url')){
+            session()->put('old_developer_url', $request->get('old'));
+        }
+
+        $password = $request->get('password');
+
         if($password == config('filament-developer-gate.password')){
+            Notification::make()
+                ->title(trans('filament-developer-gate::messages.notifications.success.title'))
+                ->body(trans('filament-developer-gate::messages.notifications.success.body'))
+                ->success()
+                ->send();
+
             session()->put('developer_password', $password);
-            return redirect()->route('filament.dashboard');
+
+            $redirect = session()->get('old_developer_url');
+            session()->forget('old_developer_url');
+            return redirect()->to($redirect);
         }
         else {
-            return redirect()->back()->with('error', 'Invalid password');
-        }
-    }
+            Notification::make()
+                ->title(trans('filament-developer-gate::messages.notifications.danger.title'))
+                ->body(trans('filament-developer-gate::messages.notifications.danger.body'))
+                ->danger()
+                ->send();
 
-    public function logout()
-    {
-        session()->forget('developer_password');
-        return redirect()->route('developer-gate.login');
+            return redirect()->back();
+        }
     }
 }

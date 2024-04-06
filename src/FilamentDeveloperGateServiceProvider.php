@@ -22,13 +22,6 @@ class FilamentDeveloperGateServiceProvider extends ServiceProvider
            __DIR__.'/../config/filament-developer-gate.php' => config_path('filament-developer-gate.php'),
         ], 'filament-developer-gate-config');
 
-        //Register Migrations
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-
-        //Publish Migrations
-        $this->publishes([
-           __DIR__.'/../database/migrations' => database_path('migrations'),
-        ], 'filament-developer-gate-migrations');
         //Register views
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'filament-developer-gate');
 

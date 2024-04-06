@@ -9,10 +9,30 @@ Secure your selected route by using a middleware with static password for develo
 ```bash
 composer require tomatophp/filament-developer-gate
 ```
-after install your package please run this command
 
-```bash
-php artisan filament-developer-gate:install
+
+## Usage
+
+to secure selected resource or page you can use this trait
+
+```php
+use TomatoPHP\FilamentDeveloperGate\Traits\InteractWithDeveloperGate;
+```
+
+or you can use the middleware direct on your routes like this
+
+```php
+Route::middleware([\TomatoPHP\FilamentDeveloperGate\Http\Middleware\DeveloperGateMiddleware::class])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
+```
+
+you can add a logout action button to your page or resource by using this trait 
+
+```php
+use TomatoPHP\FilamentDeveloperGate\Traits\DeveloperGateLogoutAction;
 ```
 
 ## Publish Assets
@@ -59,7 +79,7 @@ Please see [SECURITY](SECURITY.md) for more information about security.
 
 ## Credits
 
-- [Tomatophp](mailto:info@3x1.io)
+- [Fady Mondy](mailto:info@3x1.io)
 
 ## License
 
