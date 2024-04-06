@@ -16,6 +16,13 @@ Secure your selected route by using a middleware with static password for develo
 composer require tomatophp/filament-developer-gate
 ```
 
+finally reigster the plugin on `/app/Providers/Filament/AdminPanelProvider.php`
+
+```php
+$panel->plugin(\TomatoPHP\FilamentDeveloperGate\FilamentDeveloperGatePlugin::make())
+```
+
+
 ## Usage
 
 to secure selected resource or page you can use this trait
