@@ -1,0 +1,38 @@
+{
+    "name": "tomatophp/filament-developer-gate",
+    "type": "library",
+    "description": "Secure your selected route by using a middleware with static password for developers only",
+    "keywords": [
+        "php",
+        "laravel",
+        "template"
+    ],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Tomatophp\\FilamentDeveloperGate\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Tomatophp\\FilamentDeveloperGate\\FilamentDeveloperGateServiceProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "Fady Mondy",
+            "email": "info@3x1.io"
+        }
+    ],
+    "require": {
+        "php": "^8.1|^8.2",
+        "tomatophp/console-helpers": "^1.1"
+    }
+}
