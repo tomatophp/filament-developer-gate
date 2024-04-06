@@ -7,7 +7,7 @@ Secure your selected route by using a middleware with static password for develo
 ## Screenshots
 
 ![Login](./arts/login.png)
-![Logout](./arts/logout.png)
+![Logout](./arts/logout-button.png)
 
 
 ## Installation
