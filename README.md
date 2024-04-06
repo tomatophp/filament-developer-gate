@@ -4,12 +4,17 @@
 
 Secure your selected route by using a middleware with static password for developers only
 
+## Screenshots
+
+![Login](./arts/login.png)
+![Logout](./arts/logout.png)
+
+
 ## Installation
 
 ```bash
 composer require tomatophp/filament-developer-gate
 ```
-
 
 ## Usage
 
