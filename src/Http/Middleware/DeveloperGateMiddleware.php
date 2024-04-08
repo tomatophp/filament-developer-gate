@@ -10,13 +10,20 @@ class DeveloperGateMiddleware extends Middleware
 {
     public function handle($request, Closure $next, ...$guards)
     {
+        $tenant = $request->route()->parameters()['tenant'] ?? null;
         if(auth()->user()){
             $sessionPassword = session()->get('developer_password');
             if($sessionPassword == config('filament-developer-gate.password')){
                 return $next($request);
             }
             else {
-                return redirect()->route('developer-gate.login');
+                if($tenant){
+                    return redirect()->route('developer-gate.login.tenent', $tenant);
+                }
+                else {
+                    return redirect()->route('developer-gate.login');
+
+                }
             }
         }
         else {
