@@ -1,13 +1,18 @@
-![Screenshot](./arts/screenshot.png)
+![Screenshot](https://github.com/tomatophp/filament-developer-gate/blob/master/arts/3x1io-tomato-developer-gate.jpg)
 
 # Filament developer gate
+
+[![Latest Stable Version](https://poser.pugx.org/tomatophp/filament-developer-gate/version.svg)](https://packagist.org/packages/tomatophp/filament-developer-gate)
+[![PHP Version Require](http://poser.pugx.org/tomatophp/filament-developer-gate/require/php)](https://packagist.org/packages/tomatophp/filament-developer-gate)
+[![License](https://poser.pugx.org/tomatophp/filament-developer-gate/license.svg)](https://packagist.org/packages/tomatophp/filament-developer-gate)
+[![Downloads](https://poser.pugx.org/tomatophp/filament-developer-gate/d/total.svg)](https://packagist.org/packages/tomatophp/filament-developer-gate)
 
 Secure your selected route by using a middleware with static password for developers only
 
 ## Screenshots
 
-![Login](./arts/login.png)
-![Logout](./arts/logout-button.png)
+![Login](https://github.com/tomatophp/filament-developer-gate/blob/master/arts/login.png)
+![Logout](https://github.com/tomatophp/filament-developer-gate/blob/master/arts/logout-button.png)
 
 
 ## Installation
