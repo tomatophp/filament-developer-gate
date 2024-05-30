@@ -24,21 +24,12 @@ class DeveloperGatePageMiddleware extends Middleware
         return redirect()->to(config('filament.developer-gate.redirect'));
     }
 
-    private function routeIsNotDeveloperGate()
+    private function routeIsNotDeveloperGate(bool $check=true)
     {
         $tenant = Filament::getTenant();
 
         $gateRoute = $tenant ? route('developer-gate.login.tenant', $tenant) : route('developer-gate.login');
 
-        return url()->current() !== $gateRoute;
-    }
-
-    private function rediectNotDeveloper()
-    {
-        $tenant = Filament::getTenant();
-
-        $gateRoute = $tenant ? route('developer-gate.login.tenant', $tenant) : route('developer-gate.login');
-
-        return redirect()->to($gateRoute);
+        return $check ? (url()->current() !== $gateRoute) : redirect()->to($gateRoute);
     }
 }
