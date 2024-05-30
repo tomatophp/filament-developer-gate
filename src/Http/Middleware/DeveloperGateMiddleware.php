@@ -3,6 +3,7 @@
 namespace TomatoPHP\FilamentDeveloperGate\Http\Middleware;
 
 use Closure;
+use Filament\Facades\Filament;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Http\Request;
 
@@ -10,24 +11,30 @@ class DeveloperGateMiddleware extends Middleware
 {
     public function handle($request, Closure $next, ...$guards)
     {
-        $tenant = $request->route()->parameters()['tenant'] ?? null;
-        if(auth()->user()){
-            $sessionPassword = session()->get('developer_password');
-            if($sessionPassword == config('filament-developer-gate.password')){
-                return $next($request);
-            }
-            else {
-                if($tenant){
-                    return redirect()->route('developer-gate.login.tenent', $tenant);
-                }
-                else {
-                    return redirect()->route('developer-gate.login');
+        $sessionPassword = session()->get('developer_password');
 
-                }
-            }
+        if (($sessionPassword !== config('filament-developer-gate.password')) && $this->routeIsNotDeveloperGate()) {
+            return $this->rediectNotDeveloper();
         }
-        else {
-            return $next($request);
-        }
+
+        return $next($request);
+    }
+
+    private function routeIsNotDeveloperGate()
+    {
+        $tenant = Filament::getTenant();
+
+        $gateRoute = $tenant ? route('developer-gate.login.tenant', $tenant) : route('developer-gate.login');
+
+        return url()->current() !== $gateRoute;
+    }
+
+    private function rediectNotDeveloper()
+    {
+        $tenant = Filament::getTenant();
+
+        $gateRoute = $tenant ? route('developer-gate.login.tenant', $tenant) : route('developer-gate.login');
+
+        return redirect()->to($gateRoute);
     }
 }
