@@ -1,4 +1,4 @@
-![Screenshot](https://github.com/tomatophp/filament-developer-gate/blob/master/arts/3x1io-tomato-developer-gate.jpg)
+![Screenshot](https://raw.githubusercontent.com/tomatophp/filament-developer-gate/master/arts/3x1io-tomato-developer-gate.jpg)
 
 # Filament developer gate
 
@@ -11,8 +11,8 @@ Secure your selected route by using a middleware with static password for develo
 
 ## Screenshots
 
-![Login](https://github.com/tomatophp/filament-developer-gate/blob/master/arts/login.png)
-![Logout](https://github.com/tomatophp/filament-developer-gate/blob/master/arts/logout-button.png)
+![Login](https://raw.githubusercontent.com/tomatophp/filament-developer-gate/master/arts/login.png)
+![Logout](https://raw.githubusercontent.com/tomatophp/filament-developer-gate/master/arts/logout-button.png)
 
 
 ## Installation
