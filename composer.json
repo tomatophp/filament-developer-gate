@@ -10,7 +10,8 @@
         "auth",
         "developer",
         "gate",
-        "tools"
+        "tools",
+        "security"
     ],
     "license": "MIT",
     "autoload": {
