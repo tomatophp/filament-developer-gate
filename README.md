@@ -2,6 +2,9 @@
 
 # Filament developer gate
 
+[![Dependabot Updates](https://github.com/tomatophp/filament-developer-gate/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/tomatophp/filament-developer-gate/actions/workflows/dependabot/dependabot-updates)
+[![PHP Code Styling](https://github.com/tomatophp/filament-developer-gate/actions/workflows/fix-php-code-styling.yml/badge.svg)](https://github.com/tomatophp/filament-developer-gate/actions/workflows/fix-php-code-styling.yml)
+[![Tests](https://github.com/tomatophp/filament-developer-gate/actions/workflows/tests.yml/badge.svg)](https://github.com/tomatophp/filament-developer-gate/actions/workflows/tests.yml)
 [![Latest Stable Version](https://poser.pugx.org/tomatophp/filament-developer-gate/version.svg)](https://packagist.org/packages/tomatophp/filament-developer-gate)
 [![License](https://poser.pugx.org/tomatophp/filament-developer-gate/license.svg)](https://packagist.org/packages/tomatophp/filament-developer-gate)
 [![Downloads](https://poser.pugx.org/tomatophp/filament-developer-gate/d/total.svg)](https://packagist.org/packages/tomatophp/filament-developer-gate)
