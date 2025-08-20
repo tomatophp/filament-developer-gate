@@ -22,7 +22,7 @@ use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
 use TomatoPHP\FilamentDeveloperGate\FilamentDeveloperGateServiceProvider;
-use TomatoPHP\FilamentUsers\Tests\Models\User;
+use TomatoPHP\FilamentDeveloperGate\Tests\Models\User;
 
 #[WithEnv('DB_CONNECTION', 'testing')]
 abstract class TestCase extends BaseTestCase

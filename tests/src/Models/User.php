@@ -1,6 +1,6 @@
 <?php
 
-namespace TomatoPHP\FilamentTranslationComponent\Tests\Models;
+namespace TomatoPHP\FilamentDeveloperGate\Tests\Models;
 
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
@@ -8,7 +8,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use TomatoPHP\FilamentTranslationComponent\Tests\Database\Factories\UserFactory;
+use TomatoPHP\FilamentDeveloperGate\Tests\Database\Factories\UserFactory;
 
 class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 {
