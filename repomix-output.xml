@@ -1,0 +1,1658 @@
+This file is a merged representation of a subset of the codebase, containing files not matching ignore patterns, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching these patterns are excluded: **/*.log, tmp/, .js, .html, .blade.php, .css, public/, vendor/, node_modules
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+.github/
+  ISSUE_TEMPLATE/
+    bug.yml
+    config.yaml
+  workflows/
+    dependabot-auto-merge.yml
+    fix-php-code-styling.yml
+    tests.yml
+  CONTRIBUTING.md
+  dependabot.yml
+  FUNDING.yml
+  SECURITY.md
+config/
+  filament-developer-gate.php
+resources/
+  lang/
+    ar/
+      messages.php
+    en/
+      messages.php
+  views/
+    login.blade.php
+src/
+  Actions/
+    DeveloperLogoutAction.php
+  Console/
+    FilamentDeveloperGateInstall.php
+  Http/
+    Middleware/
+      DeveloperGateMiddleware.php
+      DeveloperGatePageMiddleware.php
+  Pages/
+    DeveloperGate.php
+  Traits/
+    DeveloperGateLogoutAction.php
+    InteractWithDeveloperGate.php
+  FilamentDeveloperGatePlugin.php
+  FilamentDeveloperGateServiceProvider.php
+tests/
+  database/
+    factories/
+      UserFactory.php
+    seeders/
+      UserSeed.php
+  src/
+    Models/
+      User.php
+    AdminPanelProvider.php
+    DebugTest.php
+    PluginTest.php
+    TestCase.php
+  Pest.php
+.gitignore
+CODE_OF_CONDUCT.md
+composer.json
+fadymondy-tomato-developer-gate.md
+LICENSE.md
+module.json
+README.md
+testbench.yaml
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path=".github/ISSUE_TEMPLATE/bug.yml">
+name: Bug Report
+description: Report an Issue or Bug with the Package
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        We're sorry to hear you have a problem. Can you help us solve it by providing the following details.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you expect to happen?
+      placeholder: I cannot currently do X thing because when I do, it breaks X thing.
+    validations:
+      required: true
+  - type: textarea
+    id: how-to-reproduce
+    attributes:
+      label: How to reproduce the bug
+      description: How did this occur, please add any config values used and provide a set of reliable steps if possible.
+      placeholder: When I do X I see Y.
+    validations:
+      required: true
+  - type: input
+    id: package-version
+    attributes:
+      label: Package Version
+      description: What version of our Package are you running? Please be as specific as possible
+      placeholder: 2.0.0
+    validations:
+      required: true
+  - type: input
+    id: php-version
+    attributes:
+      label: PHP Version
+      description: What version of PHP are you running? Please be as specific as possible
+      placeholder: 8.2.0
+    validations:
+      required: true
+  - type: input
+    id: laravel-version
+    attributes:
+      label: Laravel Version
+      description: What version of Laravel are you running? Please be as specific as possible
+      placeholder: 9.0.0
+    validations:
+      required: true
+  - type: dropdown
+    id: operating-systems
+    attributes:
+      label: Which operating systems does with happen with?
+      description: You may select more than one.
+      multiple: true
+      options:
+        - macOS
+        - Windows
+        - Linux
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Use this field to provide any other notes that you feel might be relevant to the issue.
+    validations:
+      required: false
+</file>
+
+<file path=".github/ISSUE_TEMPLATE/config.yaml">
+blank_issues_enabled: false
+contact_links:
+  - name: Ask a question
+    url: https://github.com/tomatophp/filament-developer-gate/discussions/new?category=q-a
+    about: Ask the community for help
+  - name: Request a feature
+    url: https://github.com/tomatophp/filament-developer-gate/discussions/new?category=ideas
+    about: Share ideas for new features
+  - name: Report a security issue
+    url: https://github.com/tomatophp/filament-developer-gate/security/policy
+    about: Learn how to notify us for sensitive bugs
+</file>
+
+<file path=".github/workflows/dependabot-auto-merge.yml">
+name: dependabot-auto-merge
+on: pull_request_target
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  dependabot:
+    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    steps:
+
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2.4.0
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Auto-merge Dependabot PRs for semver-minor updates
+        if: ${{steps.metadata.outputs.update-type == 'version-update:semver-minor'}}
+        run: gh pr merge --auto --merge "$PR_URL"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Auto-merge Dependabot PRs for semver-patch updates
+        if: ${{steps.metadata.outputs.update-type == 'version-update:semver-patch'}}
+        run: gh pr merge --auto --merge "$PR_URL"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+</file>
+
+<file path=".github/workflows/fix-php-code-styling.yml">
+name: 'PHP Code Styling'
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - '**.php'
+
+permissions:
+  contents: write
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Fix PHP code style issues
+        uses: aglipanci/laravel-pint-action@v2
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v6
+        with:
+          commit_message: "Format Code"
+          commit_user_name: 'GitHub Actions'
+</file>
+
+<file path=".github/CONTRIBUTING.md">
+# Contributing
+
+Contributions are **welcome** and will be fully **credited**.
+
+Please read and understand the contribution guide before creating an issue or pull request.
+
+## Etiquette
+
+This project is open source, and as such, the maintainers give their free time to build and maintain the source code
+held within. They make the code freely available in the hope that it will be of use to other developers. It would be
+extremely unfair for them to suffer abuse or anger for their hard work.
+
+Please be considerate towards maintainers when raising issues or presenting pull requests. Let's show the
+world that developers are civilized and selfless people.
+
+It's the duty of the maintainer to ensure that all submissions to the project are of sufficient
+quality to benefit the project. Many developers have different skills, strengths, and weaknesses. Respect the maintainer's decision, and do not be upset or abusive if your submission is not used.
+
+## Viability
+
+When requesting or submitting new features, first consider whether it might be useful to others. Open
+source projects are used by many developers, who may have entirely different needs to your own. Think about
+whether or not your feature is likely to be used by other users of the project.
+
+## Procedure
+
+Before filing an issue:
+
+- Attempt to replicate the problem, to ensure that it wasn't a coincidental incident.
+- Check to make sure your feature suggestion isn't already present within the project.
+- Check the pull requests tab to ensure that the bug doesn't have a fix in progress.
+- Check the pull requests tab to ensure that the feature isn't already in progress.
+
+Before submitting a pull request:
+
+- Check the codebase to ensure that your feature doesn't already exist.
+- Check the pull requests to ensure that another person hasn't already submitted the feature or fix.
+
+## Requirements
+
+If the project maintainer has any additional requirements, you will find them listed here.
+
+- **[PSR-2 Coding Standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)** - The easiest way to apply the conventions is to install [PHP Code Sniffer](https://pear.php.net/package/PHP_CodeSniffer).
+
+- **Add tests!** - Your patch won't be accepted if it doesn't have tests.
+
+- **Document any change in behaviour** - Make sure the `README.md` and any other relevant documentation are kept up-to-date.
+
+- **Consider our release cycle** - We try to follow [SemVer v2.0.0](https://semver.org/). Randomly breaking public APIs is not an option.
+
+- **One pull request per feature** - If you want to do more than one thing, send multiple pull requests.
+
+- **Send coherent history** - Make sure each individual commit in your pull request is meaningful. If you had to make multiple intermediate commits while developing, please [squash them](https://www.git-scm.com/book/en/v2/Git-Tools-Rewriting-History#Changing-Multiple-Commit-Messages) before submitting.
+
+**Happy coding**!
+</file>
+
+<file path=".github/dependabot.yml">
+# Please see the documentation for all configuration options:
+# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+</file>
+
+<file path=".github/SECURITY.md">
+# Security Policy
+
+If you discover any security related issues, please email info@3x1.io instead of using the issue tracker.
+</file>
+
+<file path="src/Actions/DeveloperLogoutAction.php">
+<?php
+
+namespace TomatoPHP\FilamentDeveloperGate\Actions;
+
+use Filament\Actions\Action;
+use Filament\Notifications\Notification;
+use TomatoPHP\FilamentDeveloperGate\Pages\DeveloperGate;
+
+class DeveloperLogoutAction extends Action
+{
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this
+            ->name('developer_gate_logout')
+            ->action(function () {
+                session()->put('developer_old_page', url()->previous());
+                session()->forget('developer_password');
+
+                Notification::make()
+                    ->title(trans('filament-developer-gate::messages.notifications.logout.title'))
+                    ->body(trans('filament-developer-gate::messages.notifications.logout.body'))
+                    ->success()
+                    ->send();
+
+                return redirect()->to(DeveloperGate::getUrl());
+            })
+            ->requiresConfirmation()
+            ->icon('heroicon-o-lock-closed')
+            ->color('danger')
+            ->label(trans('filament-developer-gate::messages.logout'));
+    }
+}
+</file>
+
+<file path="tests/database/factories/UserFactory.php">
+<?php
+
+namespace TomatoPHP\FilamentDeveloperGate\Tests\Database\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
+use TomatoPHP\FilamentDeveloperGate\Tests\Models\User;
+
+class UserFactory extends Factory
+{
+    protected $model = User::class;
+
+    public function definition(): array
+    {
+        return [
+            'name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'remember_token' => Str::random(10),
+        ];
+    }
+}
+</file>
+
+<file path="tests/database/seeders/UserSeed.php">
+<?php
+
+namespace TomatoPHP\FilamentDeveloperGate\Tests\Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use TomatoPHP\FilamentDeveloperGate\Tests\Models\User;
+
+class UserSeed extends Seeder
+{
+    /**
+     * Seed the application's database.
+     */
+    public function run(): void
+    {
+        User::factory()->create([
+            'name' => 'Fady Mondy',
+            'email' => 'info@3x1.io',
+            'password' => bcrypt('password'),
+            'email_verified_at' => now(),
+        ]);
+    }
+}
+</file>
+
+<file path="tests/src/AdminPanelProvider.php">
+<?php
+
+namespace TomatoPHP\FilamentDeveloperGate\Tests;
+
+use Filament\Http\Middleware\Authenticate;
+use Filament\Http\Middleware\DisableBladeIconComponents;
+use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Pages;
+use Filament\Panel;
+use Filament\PanelProvider;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Illuminate\Cookie\Middleware\EncryptCookies;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Session\Middleware\AuthenticateSession;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
+
+class AdminPanelProvider extends PanelProvider
+{
+    public function panel(Panel $panel): Panel
+    {
+        return $panel
+            ->default()
+            ->id('admin')
+            ->path('admin')
+            ->login()
+            ->registration()
+            ->pages([
+                Pages\Dashboard::class,
+            ])
+            ->plugin(\TomatoPHP\FilamentDeveloperGate\FilamentDeveloperGatePlugin::make())
+            ->middleware([
+                EncryptCookies::class,
+                AddQueuedCookiesToResponse::class,
+                StartSession::class,
+                AuthenticateSession::class,
+                ShareErrorsFromSession::class,
+                VerifyCsrfToken::class,
+                SubstituteBindings::class,
+                DisableBladeIconComponents::class,
+                DispatchServingFilamentEvent::class,
+            ])
+            ->authMiddleware([
+                Authenticate::class,
+            ]);
+    }
+}
+</file>
+
+<file path="tests/src/DebugTest.php">
+<?php
+
+it('will not use debugging functions', function () {
+    expect(['dd', 'dump', 'ray'])->each->not->toBeUsed();
+});
+</file>
+
+<file path="tests/src/PluginTest.php">
+<?php
+
+use Filament\Facades\Filament;
+use TomatoPHP\FilamentDeveloperGate\FilamentDeveloperGatePlugin;
+
+it('registers plugin', function () {
+    $panel = Filament::getCurrentOrDefaultPanel();
+
+    $panel->plugins([
+        FilamentDeveloperGatePlugin::make(),
+    ]);
+
+    expect($panel->getPlugin('filament-developer-gate'))
+        ->not()
+        ->toThrow(Exception::class);
+});
+</file>
+
+<file path="tests/Pest.php">
+<?php
+
+use TomatoPHP\FilamentDeveloperGate\Tests\TestCase;
+
+uses(TestCase::class)->in(__DIR__);
+</file>
+
+<file path=".gitignore">
+/.phpunit.cache
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/vendor
+.env
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+.DS_Store
+Homestead.json
+Homestead.yaml
+auth.json
+npm-debug.log
+yarn-error.log
+/.fleet
+/.idea
+/.vscode
+/.zed
+</file>
+
+<file path="CODE_OF_CONDUCT.md">
+# Contributor Covenant Code of Conduct
+
+## Our Pledge
+
+We as members, contributors, and leaders pledge to make participation in our
+community a harassment-free experience for everyone, regardless of age, body
+size, visible or invisible disability, ethnicity, sex characteristics, gender
+identity and expression, level of experience, education, socio-economic status,
+nationality, personal appearance, race, religion, or sexual identity
+and orientation.
+
+We pledge to act and interact in ways that contribute to an open, welcoming,
+diverse, inclusive, and healthy community.
+
+## Our Standards
+
+Examples of behavior that contributes to a positive environment for our
+community include:
+
+* Demonstrating empathy and kindness toward other people
+* Being respectful of differing opinions, viewpoints, and experiences
+* Giving and gracefully accepting constructive feedback
+* Accepting responsibility and apologizing to those affected by our mistakes,
+  and learning from the experience
+* Focusing on what is best not just for us as individuals, but for the
+  overall community
+
+Examples of unacceptable behavior include:
+
+* The use of sexualized language or imagery, and sexual attention or
+  advances of any kind
+* Trolling, insulting or derogatory comments, and personal or political attacks
+* Public or private harassment
+* Publishing others' private information, such as a physical or email
+  address, without their explicit permission
+* Other conduct which could reasonably be considered inappropriate in a
+  professional setting
+
+## Enforcement Responsibilities
+
+Community leaders are responsible for clarifying and enforcing our standards of
+acceptable behavior and will take appropriate and fair corrective action in
+response to any behavior that they deem inappropriate, threatening, offensive,
+or harmful.
+
+Community leaders have the right and responsibility to remove, edit, or reject
+comments, commits, code, wiki edits, issues, and other contributions that are
+not aligned to this Code of Conduct, and will communicate reasons for moderation
+decisions when appropriate.
+
+## Scope
+
+This Code of Conduct applies within all community spaces, and also applies when
+an individual is officially representing the community in public spaces.
+Examples of representing our community include using an official e-mail address,
+posting via an official social media account, or acting as an appointed
+representative at an online or offline event.
+
+## Enforcement
+
+Instances of abusive, harassing, or otherwise unacceptable behavior may be
+reported to the community leaders responsible for enforcement at
+.
+All complaints will be reviewed and investigated promptly and fairly.
+
+All community leaders are obligated to respect the privacy and security of the
+reporter of any incident.
+
+## Enforcement Guidelines
+
+Community leaders will follow these Community Impact Guidelines in determining
+the consequences for any action they deem in violation of this Code of Conduct:
+
+### 1. Correction
+
+**Community Impact**: Use of inappropriate language or other behavior deemed
+unprofessional or unwelcome in the community.
+
+**Consequence**: A private, written warning from community leaders, providing
+clarity around the nature of the violation and an explanation of why the
+behavior was inappropriate. A public apology may be requested.
+
+### 2. Warning
+
+**Community Impact**: A violation through a single incident or series
+of actions.
+
+**Consequence**: A warning with consequences for continued behavior. No
+interaction with the people involved, including unsolicited interaction with
+those enforcing the Code of Conduct, for a specified period of time. This
+includes avoiding interactions in community spaces as well as external channels
+like social media. Violating these terms may lead to a temporary or
+permanent ban.
+
+### 3. Temporary Ban
+
+**Community Impact**: A serious violation of community standards, including
+sustained inappropriate behavior.
+
+**Consequence**: A temporary ban from any sort of interaction or public
+communication with the community for a specified period of time. No public or
+private interaction with the people involved, including unsolicited interaction
+with those enforcing the Code of Conduct, is allowed during this period.
+Violating these terms may lead to a permanent ban.
+
+### 4. Permanent Ban
+
+**Community Impact**: Demonstrating a pattern of violation of community
+standards, including sustained inappropriate behavior,  harassment of an
+individual, or aggression toward or disparagement of classes of individuals.
+
+**Consequence**: A permanent ban from any sort of public interaction within
+the community.
+
+## Attribution
+
+This Code of Conduct is adapted from the [Contributor Covenant][homepage],
+version 2.0, available at
+https://www.contributor-covenant.org/version/2/0/code_of_conduct.html.
+
+Community Impact Guidelines were inspired by [Mozilla's code of conduct
+enforcement ladder](https://github.com/mozilla/diversity).
+
+[homepage]: https://www.contributor-covenant.org
+
+For answers to common questions about this code of conduct, see the FAQ at
+https://www.contributor-covenant.org/faq. Translations are available at
+https://www.contributor-covenant.org/translations.
+</file>
+
+<file path="fadymondy-tomato-developer-gate.md">
+---
+name: Developer Gate
+slug: fadymondy-tomato-developer-gate
+author_slug: fadymondy
+categories: [developer-tool,panel-authentication]
+description: Secure your selected route by using a middleware with static password for developers only
+discord_url:
+docs_url: https://raw.githubusercontent.com/tomatophp/filament-developer-gate/master/README.md
+github_repository: tomatophp/filament-developer-gate
+has_dark_theme: true
+has_translations: true
+versions: [3,4]
+publish_date: 2024-04-06
+---
+</file>
+
+<file path="LICENSE.md">
+The MIT License (MIT)
+
+Copyright (c)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+</file>
+
+<file path="module.json">
+{
+    "name": "FilamentDeveloperGate",
+    "alias": "filament-developer-gate",
+    "description": {
+        "ar": "Developer Gate for Filament",
+        "en": "Developer Gate for Filament",
+        "gr": "Developer Gate for Filament",
+        "sp": "Developer Gate for Filament"
+    },
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "TomatoPHP\\FilamentDeveloperGate\\FilamentDeveloperGateServiceProvider"
+    ],
+    "files": [],
+    "title": {
+        "ar": "Filament language switcher",
+        "en": "Developer Gate for Filament",
+        "gr": "Developer Gate for Filament",
+        "sp": "Developer Gate for Filament"
+    },
+    "color": "#cc1448",
+    "icon": "heroicon-c-users",
+    "placeholder": "https://raw.githubusercontent.com/tomatophp/filament-developer-gate/master/arts/fadymondy-tomato-developer-gate.jpg",
+    "type": "plugin",
+    "version": "v4.0.0",
+    "github" : "https://github.com/tomatophp/filament-developer-gate",
+    "docs" : "https://github.com/tomatophp/filament-developer-gate"
+}
+</file>
+
+<file path="testbench.yaml">
+providers:
+  - BladeUI\Icons\BladeIconsServiceProvider
+  - BladeUI\Heroicons\BladeHeroiconsServiceProvider
+  - Filament\Actions\ActionsServiceProvider
+  - Filament\FilamentServiceProvider
+  - Filament\Forms\FormsServiceProvider
+  - Filament\Infolists\InfolistsServiceProvider
+  - Filament\Notifications\NotificationsServiceProvider
+  - Filament\Support\SupportServiceProvider
+  - Filament\Tables\TablesServiceProvider
+  - Filament\Widgets\WidgetsServiceProvider
+  - Filament\Schemas\SchemasServiceProvider
+  - RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider
+  - TomatoPHP\FilamentDeveloperGate\FilamentDeveloperGateServiceProvider
+  - TomatoPHP\FilamentDeveloperGate\Tests\AdminPanelProvider
+
+workbench:
+  welcome: true
+  install: true
+  start: /
+  guard: testing
+  discovers:
+    web: true
+    api: false
+    commands: false
+    views: true
+</file>
+
+<file path=".github/workflows/tests.yml">
+name: "Tests"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - '**.php'
+  pull_request:
+    types:
+      - opened
+      - synchronize
+    branches:
+      - master
+    paths:
+      - '**.php'
+      - '.github/workflows/tests.yml'
+      - 'phpunit.xml.dist'
+      - 'composer.json'
+      - 'composer.lock'
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest]
+        php: [8.4, 8.3, 8.2]
+        laravel: [12.*, 11.*]
+        stability: [prefer-stable]
+        include:
+          - laravel: 12.*
+            testbench: 10.*
+            carbon: 3.*
+            collision: 8.*
+          - laravel: 11.*
+            testbench: 9.*
+            carbon: 3.*
+            collision: 8.*
+        exclude:
+          - laravel: 11.*
+            php: 8.1
+    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+
+      - name: Cache Dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache/files
+          key: dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
+          coverage: none
+
+      - name: Install Dependencies
+        run: |
+          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Install Dependencies
+        run: |
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "nesbot/carbon:${{ matrix.carbon }}" "nunomaduro/collision:${{ matrix.collision }}" --no-interaction --no-update
+          composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+          composer db
+
+      - name: Execute tests
+        run: vendor/bin/pest
+</file>
+
+<file path=".github/FUNDING.yml">
+github: [fadymondy]
+</file>
+
+<file path="src/Console/FilamentDeveloperGateInstall.php">
+<?php
+
+namespace TomatoPHP\FilamentDeveloperGate\Console;
+
+use Illuminate\Console\Command;
+use TomatoPHP\ConsoleHelpers\Traits\RunCommand;
+
+class FilamentDeveloperGateInstall extends Command
+{
+    use RunCommand;
+
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $name = 'filament-developer-gate:install';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'install package and publish assets';
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function handle()
+    {
+        $this->info('Publish Vendor Assets');
+        $this->callSilent('optimize:clear');
+        $this->artisanCommand(['migrate']);
+        $this->artisanCommand(['optimize:clear']);
+        $this->info('Filament Developer Gate installed successfully.');
+    }
+}
+</file>
+
+<file path="src/Pages/DeveloperGate.php">
+<?php
+
+namespace TomatoPHP\FilamentDeveloperGate\Pages;
+
+use Filament\Actions\Action;
+use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
+use Filament\Pages\Page;
+use Filament\Panel;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Concerns\InteractsWithSchemas;
+use Filament\Schemas\Contracts\HasSchemas;
+use Filament\Schemas\Schema;
+use TomatoPHP\FilamentDeveloperGate\Http\Middleware\DeveloperGatePageMiddleware;
+
+class DeveloperGate extends Page implements HasSchemas
+{
+    use InteractsWithSchemas;
+
+    public static ?string $title = 'Developer Gate';
+
+    public static ?string $icon = 'heroicon-o-lock-closed';
+
+    public string $view = 'filament-developer-gate::login';
+
+    public static string $route = 'developer-gate';
+
+    public array $data = [];
+
+    public function mount()
+    {
+        $this->data = [
+            'password' => '',
+        ];
+    }
+
+    public static function getRouteMiddleware(Panel $panel): string|array
+    {
+        return [
+            'auth',
+            'verified',
+            DeveloperGatePageMiddleware::class,
+        ];
+    }
+
+    public function getTitle(): string
+    {
+        return trans('filament-developer-gate::messages.title');
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
+
+    public function getLoginForm(Schema $schema): Schema
+    {
+        return $schema->schema([
+            Section::make(trans('filament-developer-gate::messages.name'))
+                ->icon('heroicon-o-lock-closed')
+                ->iconColor('danger')
+                ->description(trans('filament-developer-gate::messages.description'))
+                ->schema([
+                    TextInput::make('password')
+                        ->label(trans('filament-developer-gate::messages.password-input'))
+                        ->password()
+                        ->revealable(filament()->arePasswordsRevealable())
+                        ->required(fn ($record) => ! $record)
+                        ->rule(\Illuminate\Validation\Rules\Password::default()),
+                ])
+                ->footerActions([
+                    Action::make('login')
+                        ->label(trans('filament-developer-gate::messages.login'))
+                        ->action(fn () => $this->submit()),
+                ]),
+        ])->statePath('data');
+    }
+
+    public function submit()
+    {
+        $this->getLoginForm->validate();
+
+        $password = $this->data['password'];
+
+        if ($password == config('filament-developer-gate.password')) {
+            session()->put('developer_password', $password);
+
+            return redirect()->to(session()->get('developer_old_page'));
+        }
+
+        Notification::make()
+            ->title(trans('filament-developer-gate::messages.notifications.danger.title'))
+            ->body(trans('filament-developer-gate::messages.notifications.danger.body'))
+            ->danger()
+            ->send();
+
+        return redirect()->back();
+    }
+}
+</file>
+
+<file path="src/Traits/DeveloperGateLogoutAction.php">
+<?php
+
+namespace TomatoPHP\FilamentDeveloperGate\Traits;
+
+use TomatoPHP\FilamentDeveloperGate\Actions\DeveloperLogoutAction;
+
+trait DeveloperGateLogoutAction
+{
+    protected function getHeaderActions(): array
+    {
+        return array_merge($this->getActions(), [
+            DeveloperLogoutAction::make(),
+        ]);
+    }
+}
+</file>
+
+<file path="src/Traits/InteractWithDeveloperGate.php">
+<?php
+
+namespace TomatoPHP\FilamentDeveloperGate\Traits;
+
+use Filament\Panel;
+use TomatoPHP\FilamentDeveloperGate\Http\Middleware\DeveloperGateMiddleware;
+
+trait InteractWithDeveloperGate
+{
+    public static function getRouteMiddleware(Panel $panel): string|array
+    {
+        return [
+            'auth',
+            'verified',
+            DeveloperGateMiddleware::class,
+        ];
+    }
+}
+</file>
+
+<file path="src/FilamentDeveloperGatePlugin.php">
+<?php
+
+namespace TomatoPHP\FilamentDeveloperGate;
+
+use Filament\Contracts\Plugin;
+use Filament\Panel;
+use TomatoPHP\FilamentDeveloperGate\Pages\DeveloperGate;
+
+class FilamentDeveloperGatePlugin implements Plugin
+{
+    public function getId(): string
+    {
+        return 'filament-developer-gate';
+    }
+
+    public function register(Panel $panel): void
+    {
+        $panel
+            ->pages([
+                DeveloperGate::class,
+            ]);
+    }
+
+    public function boot(Panel $panel): void
+    {
+        //
+    }
+
+    public static function make(): static
+    {
+        return new static;
+    }
+}
+</file>
+
+<file path="tests/src/Models/User.php">
+<?php
+
+namespace TomatoPHP\FilamentDeveloperGate\Tests\Models;
+
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use TomatoPHP\FilamentDeveloperGate\Tests\Database\Factories\UserFactory;
+
+class User extends Authenticatable implements FilamentUser, MustVerifyEmail
+{
+    use HasFactory;
+    use Notifiable;
+
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
+
+    protected $guarded = [];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
+    }
+
+    protected static function newFactory(): UserFactory
+    {
+        return UserFactory::new();
+    }
+}
+</file>
+
+<file path="tests/src/TestCase.php">
+<?php
+
+namespace TomatoPHP\FilamentDeveloperGate\Tests;
+
+use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
+use BladeUI\Icons\BladeIconsServiceProvider;
+use Filament\Actions\ActionsServiceProvider;
+use Filament\FilamentServiceProvider;
+use Filament\Forms\FormsServiceProvider;
+use Filament\Infolists\InfolistsServiceProvider;
+use Filament\Notifications\NotificationsServiceProvider;
+use Filament\Panel;
+use Filament\Schemas\SchemasServiceProvider;
+use Filament\Support\SupportServiceProvider;
+use Filament\Tables\TablesServiceProvider;
+use Filament\Widgets\WidgetsServiceProvider;
+use Illuminate\Contracts\Config\Repository;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Livewire\LivewireServiceProvider;
+use Orchestra\Testbench\Attributes\WithEnv;
+use Orchestra\Testbench\Concerns\WithWorkbench;
+use Orchestra\Testbench\TestCase as BaseTestCase;
+use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
+use TomatoPHP\FilamentDeveloperGate\FilamentDeveloperGateServiceProvider;
+use TomatoPHP\FilamentDeveloperGate\Tests\Models\User;
+
+#[WithEnv('DB_CONNECTION', 'testing')]
+abstract class TestCase extends BaseTestCase
+{
+    use LazilyRefreshDatabase;
+    use WithWorkbench;
+
+    public ?Panel $panel;
+
+    protected function getPackageProviders($app): array
+    {
+        $providers = [
+            ActionsServiceProvider::class,
+            BladeCaptureDirectiveServiceProvider::class,
+            BladeHeroiconsServiceProvider::class,
+            BladeIconsServiceProvider::class,
+            FilamentServiceProvider::class,
+            FormsServiceProvider::class,
+            SchemasServiceProvider::class,
+            InfolistsServiceProvider::class,
+            LivewireServiceProvider::class,
+            NotificationsServiceProvider::class,
+            SupportServiceProvider::class,
+            TablesServiceProvider::class,
+            WidgetsServiceProvider::class,
+            FilamentDeveloperGateServiceProvider::class,
+            AdminPanelProvider::class,
+        ];
+
+        sort($providers);
+
+        return $providers;
+    }
+
+    protected function defineEnvironment($app)
+    {
+
+        tap($app['config'], function (Repository $config) {
+            $config->set('database.default', 'testing');
+            $config->set('database.connections.testing', [
+                'driver' => 'sqlite',
+                'database' => ':memory:',
+                'prefix' => '',
+            ]);
+
+            $config->set('auth.guards.testing.driver', 'session');
+            $config->set('auth.guards.testing.provider', 'testing');
+            $config->set('auth.providers.testing.driver', 'eloquent');
+            $config->set('auth.providers.testing.model', User::class);
+
+            $config->set('view.paths', [
+                ...$config->get('view.paths'),
+                __DIR__.'/../resources/views',
+            ]);
+        });
+    }
+}
+</file>
+
+<file path="resources/lang/ar/messages.php">
+<?php
+
+return [
+    'title' => 'مرحبًا بك في بوابة المطورين',
+    'name' => 'بوابة المطورين',
+    'description' => 'الرجاء إدخال كلمة مرور المطور الخاصة بك للوصول إلى هذه الميزة',
+    'password-input' => 'كلمة المرور للمطور',
+    'login' => 'تسجيل الدخول',
+    'logout' => 'تسجيل الخروج من بوابة المطورين',
+    'notifications' => [
+        'danger' => [
+            'title' => 'كلمة المرور غير صالحة',
+            'body' => 'كلمة المرور التي أدخلتها غير صالحة',
+        ],
+        'success' => [
+            'title' => 'لديك الوصول',
+            'body' => 'لقد قمت بتسجيل الدخول بنجاح كمطور.',
+        ],
+    ],
+];
+</file>
+
+<file path="resources/lang/en/messages.php">
+<?php
+
+return [
+    'title' => 'Welcome to Developer Gate',
+    'name' => 'Developer Gate',
+    'description' => 'Please input your developer password to access this feature',
+    'password-input' => 'Developer Password',
+    'login' => 'Login',
+    'logout' => 'Developer Gate Logout',
+    'notifications' => [
+        'danger' => [
+            'title' => 'Invalid password',
+            'body' => 'The password you entered is invalid',
+        ],
+        'success' => [
+            'title' => 'You Have Access',
+            'body' => 'You have successfully logged in as a developer.',
+        ],
+        'logout' => [
+            'title' => 'You Are Logged Out',
+            'body' => 'You have successfully logged out as a developer.',
+        ],
+    ],
+];
+</file>
+
+<file path="resources/views/login.blade.php">
+<x-filament-panels::page>
+    {{  $this->getLoginForm }}
+    {{-- <div class="fi-ta-ctn divide-y divide-gray-200 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-gray-950/5 dark:divide-white/10 dark:bg-gray-900 dark:ring-white/10"> --}}
+       {{-- <div class="fi-ta-header-ctn divide-y divide-gray-200 dark:divide-white/10 p-4">
+           <h1 class="text-danger-600">{{ trans('filament-developer-gate::messages.description') }}</h1>
+       </div> --}}
+        {{-- <form  method="POST" action="{{route('developer-gate.login')}}" class="p-4">
+            @csrf
+            <input type="hidden" name="old" value="{{ session()->previousUrl() }}" />
+            <div class="grid gap-y-4">
+                <div class="flex items-center justify-between gap-x-3 ">
+                    <label class="fi-fo-field-wrp-label inline-flex items-center gap-x-3" for="data.name">
+                        <span class="text-sm font-medium leading-6 text-gray-950 dark:text-white">
+                            {{ trans('filament-developer-gate::messages.password-input') }} <sup class="text-danger-600 dark:text-danger-400 font-medium">*</sup>
+                        </span>
+                    </label>
+                </div>
+
+                <div class="grid gap-y-2">
+                    <div class="fi-input-wrp flex rounded-lg shadow-sm ring-1 transition duration-75 bg-white dark:bg-white/5 [&amp;:not(:has(.fi-ac-action:focus))]:focus-within:ring-2 ring-gray-950/10 dark:ring-white/20 [&amp;:not(:has(.fi-ac-action:focus))]:focus-within:ring-primary-600 dark:[&amp;:not(:has(.fi-ac-action:focus))]:focus-within:ring-primary-500 fi-fo-text-input overflow-hidden">
+                        <div class="min-w-0 flex-1">
+                            <input class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 disabled:[-webkit-text-fill-color:theme(colors.gray.500)] disabled:placeholder:[-webkit-text-fill-color:theme(colors.gray.400)] dark:text-white dark:placeholder:text-gray-500 dark:disabled:text-gray-400 dark:disabled:[-webkit-text-fill-color:theme(colors.gray.400)] dark:disabled:placeholder:[-webkit-text-fill-color:theme(colors.gray.500)] sm:text-sm sm:leading-6 bg-white/0 ps-3 pe-3" id="data.password" required="required" type="password" name="password">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <button x-mousetrap.global.mod-s="" x-data="{
+            form: null,
+            isProcessing: false,
+            processingMessage: null,
+        }" x-init="
+            form = $el.closest('form')
+
+            form?.addEventListener('form-processing-started', (event) => {
+                isProcessing = true
+                processingMessage = event.detail.message
+            })
+
+            form?.addEventListener('form-processing-finished', () => {
+                isProcessing = false
+            })
+        " x-bind:class="{ 'enabled:opacity-70 enabled:cursor-wait': isProcessing }" style="--c-400:var(--primary-400);--c-500:var(--primary-500);--c-600:var(--primary-600);" class="fi-btn relative grid-flow-col items-center justify-center font-semibold outline-none transition duration-75 focus-visible:ring-2 rounded-lg fi-color-custom fi-btn-color-primary fi-color-primary fi-size-md fi-btn-size-md gap-1.5 px-3 py-2 text-sm inline-grid shadow-sm bg-custom-600 text-white hover:bg-custom-500 focus-visible:ring-custom-500/50 dark:bg-custom-500 dark:hover:bg-custom-400 dark:focus-visible:ring-custom-400/50 fi-ac-action fi-ac-btn-action" type="submit" wire:loading.attr="disabled" x-bind:disabled="isProcessing">
+                        <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="animate-spin fi-btn-icon transition duration-75 h-5 w-5 text-white" wire:loading.delay.default="" wire:target="create">
+                            <path clip-rule="evenodd" d="M12 19C15.866 19 19 15.866 19 12C19 8.13401 15.866 5 12 5C8.13401 5 5 8.13401 5 12C5 15.866 8.13401 19 12 19ZM12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill-rule="evenodd" fill="currentColor" opacity="0.2"></path>
+                            <path d="M2 12C2 6.47715 6.47715 2 12 2V5C8.13401 5 5 8.13401 5 12H2Z" fill="currentColor"></path>
+                        </svg>
+
+                        <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="animate-spin fi-btn-icon transition duration-75 h-5 w-5 text-white" x-show="isProcessing" style="display: none;">
+                            <path clip-rule="evenodd" d="M12 19C15.866 19 19 15.866 19 12C19 8.13401 15.866 5 12 5C8.13401 5 5 8.13401 5 12C5 15.866 8.13401 19 12 19ZM12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill-rule="evenodd" fill="currentColor" opacity="0.2"></path>
+                            <path d="M2 12C2 6.47715 6.47715 2 12 2V5C8.13401 5 5 8.13401 5 12H2Z" fill="currentColor"></path>
+                        </svg>
+
+                        <span x-show="! isProcessing" class="fi-btn-label">
+                            {{ trans('filament-developer-gate::messages.login') }}
+                        </span>
+
+                        <span x-show="isProcessing" x-text="processingMessage" class="fi-btn-label" style="display: none;"></span>
+                    </button>
+                </div>
+            </div>
+        </form> --}}
+
+    {{-- </div> --}}
+</x-filament-panels::page>
+</file>
+
+<file path="src/FilamentDeveloperGateServiceProvider.php">
+<?php
+
+namespace TomatoPHP\FilamentDeveloperGate;
+
+use Illuminate\Support\ServiceProvider;
+
+class FilamentDeveloperGateServiceProvider extends ServiceProvider
+{
+    public function register(): void
+    {
+        // Register generate command
+        $this->commands([
+            \TomatoPHP\FilamentDeveloperGate\Console\FilamentDeveloperGateInstall::class,
+        ]);
+
+        // Register Config file
+        $this->mergeConfigFrom(__DIR__.'/../config/filament-developer-gate.php', 'filament-developer-gate');
+
+        // Publish Config
+        $this->publishes([
+            __DIR__.'/../config/filament-developer-gate.php' => config_path('filament-developer-gate.php'),
+        ], 'filament-developer-gate-config');
+
+        // Register views
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'filament-developer-gate');
+
+        // Publish Views
+        $this->publishes([
+            __DIR__.'/../resources/views' => resource_path('views/vendor/filament-developer-gate'),
+        ], 'filament-developer-gate-views');
+
+        // Register Langs
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'filament-developer-gate');
+
+        // Publish Lang
+        $this->publishes([
+            __DIR__.'/../resources/lang' => base_path('lang/vendor/filament-developer-gate'),
+        ], 'filament-developer-gate-lang');
+    }
+
+    public function boot(): void
+    {
+        // you boot methods here
+    }
+}
+</file>
+
+<file path="config/filament-developer-gate.php">
+<?php
+
+return [
+    'password' => env('DEVELOPER_GATE_PASSWORD', 'password'),
+
+    'redirect' => env('DEVELOPER_GATE_REDIRECT', '/admin'),
+
+    'route_prefix' => 'admin',
+];
+</file>
+
+<file path="src/Http/Middleware/DeveloperGateMiddleware.php">
+<?php
+
+namespace TomatoPHP\FilamentDeveloperGate\Http\Middleware;
+
+use Closure;
+use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use TomatoPHP\FilamentDeveloperGate\Pages\DeveloperGate;
+
+class DeveloperGateMiddleware extends Middleware
+{
+    public function handle($request, Closure $next, ...$guards)
+    {
+        if (! session()->has('developer_old_page')) {
+            session()->put('developer_old_page', url()->previous());
+        }
+
+        $sessionPassword = session()->get('developer_password');
+
+        if (($sessionPassword !== config('filament-developer-gate.password')) && $this->routeIsNotDeveloperGate()) {
+            return $this->routeIsNotDeveloperGate(false);
+        }
+
+        return $next($request);
+    }
+
+    private function routeIsNotDeveloperGate(bool $check = true)
+    {
+        $gateRoute = DeveloperGate::getUrl();
+
+        return $check ? (url()->current() !== $gateRoute) : redirect()->to($gateRoute);
+    }
+}
+</file>
+
+<file path="src/Http/Middleware/DeveloperGatePageMiddleware.php">
+<?php
+
+namespace TomatoPHP\FilamentDeveloperGate\Http\Middleware;
+
+use Closure;
+use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use TomatoPHP\FilamentDeveloperGate\Pages\DeveloperGate;
+
+class DeveloperGatePageMiddleware extends Middleware
+{
+    public function handle($request, Closure $next, ...$guards)
+    {
+        if (! session()->has('developer_old_page')) {
+            session()->put('developer_old_page', url()->previous());
+        }
+
+        if ($this->routeIsNotDeveloperGate() || ! auth()->check()) {
+            return $next($request);
+        }
+
+        $sessionPassword = session()->get('developer_password');
+
+        if ($sessionPassword !== config('filament-developer-gate.password')) {
+            return $next($request);
+        }
+
+        return redirect()->to(config('filament.developer-gate.redirect'));
+    }
+
+    private function routeIsNotDeveloperGate(bool $check = true)
+    {
+
+        $gateRoute = DeveloperGate::getUrl();
+
+        return $check ? (url()->current() !== $gateRoute) : redirect()->to($gateRoute);
+    }
+}
+</file>
+
+<file path="composer.json">
+{
+    "name": "tomatophp/filament-developer-gate",
+    "type": "library",
+    "description": "Secure your selected route by using a middleware with static password for developers only",
+    "keywords": [
+        "php",
+        "laravel",
+        "filament",
+        "secure",
+        "auth",
+        "developer",
+        "gate",
+        "tools"
+    ],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "TomatoPHP\\FilamentDeveloperGate\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TomatoPHP\\FilamentDeveloperGate\\Tests\\": "tests/src/",
+            "TomatoPHP\\FilamentDeveloperGate\\Tests\\Database\\Factories\\": "tests/database/factories"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TomatoPHP\\FilamentDeveloperGate\\FilamentDeveloperGateServiceProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "Fady Mondy",
+            "email": "info@3x1.io"
+        }
+    ],
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "scripts": {
+        "testbench": "vendor/bin/testbench package:discover --ansi",
+        "db": "vendor/bin/testbench package:create-sqlite-db && vendor/bin/testbench migrate",
+        "analyse": "vendor/bin/phpstan analyse src tests",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint"
+    },
+    "require": {
+        "php": "^8.2|^8.3|^8.4",
+        "tomatophp/console-helpers": "^1.1",
+        "filament/filament": "^4.0.0",
+        "filament/notifications": "^4.0.0"
+    },
+    "require-dev": {
+        "larastan/larastan": "^2.9||^3.0",
+        "laravel/pint": "^1.14",
+        "nunomaduro/collision": "^8.1.1||^7.10.0",
+        "orchestra/testbench": "^10.0.0||^9.0.0",
+        "pestphp/pest": "^3.0",
+        "pestphp/pest-plugin-arch": "^3.0",
+        "pestphp/pest-plugin-laravel": "^3.0",
+        "pestphp/pest-plugin-livewire": "^3.0",
+        "pestphp/pest-plugin-type-coverage": "^3.5",
+        "phpstan/extension-installer": "^1.3||^2.0",
+        "phpstan/phpstan-deprecation-rules": "^1.1||^2.0",
+        "phpstan/phpstan-phpunit": "^1.3||^2.0"
+    },
+    "version": "v4.0.0"
+}
+</file>
+
+<file path="README.md">
+![Screenshot](https://raw.githubusercontent.com/tomatophp/filament-developer-gate/master/arts/fadymondy-tomato-developer-gate.jpg)
+
+# Filament developer gate
+
+[![Latest Stable Version](https://poser.pugx.org/tomatophp/filament-developer-gate/version.svg)](https://packagist.org/packages/tomatophp/filament-developer-gate)
+[![License](https://poser.pugx.org/tomatophp/filament-developer-gate/license.svg)](https://packagist.org/packages/tomatophp/filament-developer-gate)
+[![Downloads](https://poser.pugx.org/tomatophp/filament-developer-gate/d/total.svg)](https://packagist.org/packages/tomatophp/filament-developer-gate)
+
+Secure your selected route by using a middleware with static password for developers only
+
+## Screenshots
+
+![Login](https://raw.githubusercontent.com/tomatophp/filament-developer-gate/master/arts/login.png)
+![Logout](https://raw.githubusercontent.com/tomatophp/filament-developer-gate/master/arts/logout-action.png)
+![Logout Confirm](https://raw.githubusercontent.com/tomatophp/filament-developer-gate/master/arts/logout-confirm.png)
+
+
+## Installation
+
+```bash
+composer require tomatophp/filament-developer-gate
+```
+
+finally reigster the plugin on `/app/Providers/Filament/AdminPanelProvider.php`
+
+```php
+$panel->plugin(\TomatoPHP\FilamentDeveloperGate\FilamentDeveloperGatePlugin::make())
+```
+
+
+## Usage
+
+to secure selected resource or page you can use this trait
+
+```php
+use TomatoPHP\FilamentDeveloperGate\Traits\InteractWithDeveloperGate;
+```
+
+or you can use the middleware direct on your routes like this
+
+```php
+Route::middleware([\TomatoPHP\FilamentDeveloperGate\Http\Middleware\DeveloperGateMiddleware::class])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
+```
+
+you can add a logout action button to your page or resource by using this trait
+
+```php
+use TomatoPHP\FilamentDeveloperGate\Traits\DeveloperGateLogoutAction;
+```
+
+or you can use direct action like this
+
+```php
+use TomatoPHP\FilamentDeveloperGate\Actions\DeveloperLogoutAction;
+
+
+DeveloperLogoutAction::make();
+```
+
+## Publish Assets
+
+you can publish config file by use this command
+
+```bash
+php artisan vendor:publish --tag="filament-developer-gate-config"
+```
+
+you can publish views file by use this command
+
+```bash
+php artisan vendor:publish --tag="filament-developer-gate-views"
+```
+
+you can publish languages file by use this command
+
+```bash
+php artisan vendor:publish --tag="filament-developer-gate-lang"
+```
+
+you can publish migrations file by use this command
+
+```bash
+php artisan vendor:publish --tag="filament-developer-gate-migrations"
+```
+
+## Testing
+
+if you like to run `PEST` testing just use this command
+
+```bash
+composer test
+```
+
+## Code Style
+
+if you like to fix the code style just use this command
+
+```bash
+composer format
+```
+
+## PHPStan
+
+if you like to check the code by `PHPStan` just use this command
+
+```bash
+composer analyse
+```
+
+
+## Other Filament Packages
+
+Checkout our [Awesome TomatoPHP](https://github.com/tomatophp/awesome)
+</file>
+
+</files>
