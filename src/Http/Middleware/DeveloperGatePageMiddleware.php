@@ -3,15 +3,18 @@
 namespace TomatoPHP\FilamentDeveloperGate\Http\Middleware;
 
 use Closure;
-use Filament\Facades\Filament;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
-use Illuminate\Http\Request;
+use TomatoPHP\FilamentDeveloperGate\Pages\DeveloperGate;
 
 class DeveloperGatePageMiddleware extends Middleware
 {
     public function handle($request, Closure $next, ...$guards)
     {
-        if ($this->routeIsNotDeveloperGate() || !auth()->check()) {
+        if (! session()->has('developer_old_page')) {
+            session()->put('developer_old_page', url()->previous());
+        }
+
+        if ($this->routeIsNotDeveloperGate() || ! auth()->check()) {
             return $next($request);
         }
 
@@ -24,11 +27,10 @@ class DeveloperGatePageMiddleware extends Middleware
         return redirect()->to(config('filament.developer-gate.redirect'));
     }
 
-    private function routeIsNotDeveloperGate(bool $check=true)
+    private function routeIsNotDeveloperGate(bool $check = true)
     {
-        $tenant = Filament::getTenant();
 
-        $gateRoute = $tenant ? route('developer-gate.login.tenant', $tenant) : route('developer-gate.login');
+        $gateRoute = DeveloperGate::getUrl();
 
         return $check ? (url()->current() !== $gateRoute) : redirect()->to($gateRoute);
     }

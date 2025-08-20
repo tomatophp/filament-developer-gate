@@ -1,0 +1,29 @@
+{
+    "name": "FilamentDeveloperGate",
+    "alias": "filament-developer-gate",
+    "description": {
+        "ar": "Developer Gate for Filament",
+        "en": "Developer Gate for Filament",
+        "gr": "Developer Gate for Filament",
+        "sp": "Developer Gate for Filament"
+    },
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "TomatoPHP\\FilamentDeveloperGate\\FilamentDeveloperGateServiceProvider"
+    ],
+    "files": [],
+    "title": {
+        "ar": "Filament language switcher",
+        "en": "Developer Gate for Filament",
+        "gr": "Developer Gate for Filament",
+        "sp": "Developer Gate for Filament"
+    },
+    "color": "#cc1448",
+    "icon": "heroicon-c-users",
+    "placeholder": "https://raw.githubusercontent.com/tomatophp/filament-developer-gate/master/arts/fadymondy-tomato-developer-gate.jpg",
+    "type": "plugin",
+    "version": "v4.0.0",
+    "github" : "https://github.com/tomatophp/filament-developer-gate",
+    "docs" : "https://github.com/tomatophp/filament-developer-gate"
+}

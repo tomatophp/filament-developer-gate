@@ -1,9 +1,10 @@
 <x-filament-panels::page>
-    <div class="fi-ta-ctn divide-y divide-gray-200 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-gray-950/5 dark:divide-white/10 dark:bg-gray-900 dark:ring-white/10">
-       <div class="fi-ta-header-ctn divide-y divide-gray-200 dark:divide-white/10 p-4">
+    {{  $this->getLoginForm }}
+    {{-- <div class="fi-ta-ctn divide-y divide-gray-200 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-gray-950/5 dark:divide-white/10 dark:bg-gray-900 dark:ring-white/10"> --}}
+       {{-- <div class="fi-ta-header-ctn divide-y divide-gray-200 dark:divide-white/10 p-4">
            <h1 class="text-danger-600">{{ trans('filament-developer-gate::messages.description') }}</h1>
-       </div>
-        <form  method="POST" action="{{route('developer-gate.login')}}" class="p-4">
+       </div> --}}
+        {{-- <form  method="POST" action="{{route('developer-gate.login')}}" class="p-4">
             @csrf
             <input type="hidden" name="old" value="{{ session()->previousUrl() }}" />
             <div class="grid gap-y-4">
@@ -58,9 +59,7 @@
                     </button>
                 </div>
             </div>
+        </form> --}}
 
-
-        </form>
-
-    </div>
+    {{-- </div> --}}
 </x-filament-panels::page>

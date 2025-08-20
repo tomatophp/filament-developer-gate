@@ -1,4 +1,4 @@
-![Screenshot](https://raw.githubusercontent.com/tomatophp/filament-developer-gate/master/arts/3x1io-tomato-developer-gate.jpg)
+![Screenshot](https://raw.githubusercontent.com/tomatophp/filament-developer-gate/master/arts/fadymondy-tomato-developer-gate.jpg)
 
 # Filament developer gate
 
@@ -11,7 +11,8 @@ Secure your selected route by using a middleware with static password for develo
 ## Screenshots
 
 ![Login](https://raw.githubusercontent.com/tomatophp/filament-developer-gate/master/arts/login.png)
-![Logout](https://raw.githubusercontent.com/tomatophp/filament-developer-gate/master/arts/logout-button.png)
+![Logout](https://raw.githubusercontent.com/tomatophp/filament-developer-gate/master/arts/logout-action.png)
+![Logout Confirm](https://raw.githubusercontent.com/tomatophp/filament-developer-gate/master/arts/logout-confirm.png)
 
 
 ## Installation
@@ -45,10 +46,19 @@ Route::middleware([\TomatoPHP\FilamentDeveloperGate\Http\Middleware\DeveloperGat
 });
 ```
 
-you can add a logout action button to your page or resource by using this trait 
+you can add a logout action button to your page or resource by using this trait
 
 ```php
 use TomatoPHP\FilamentDeveloperGate\Traits\DeveloperGateLogoutAction;
+```
+
+or you can use direct action like this
+
+```php
+use TomatoPHP\FilamentDeveloperGate\Actions\DeveloperLogoutAction;
+
+
+DeveloperLogoutAction::make();
 ```
 
 ## Publish Assets
@@ -76,6 +86,31 @@ you can publish migrations file by use this command
 ```bash
 php artisan vendor:publish --tag="filament-developer-gate-migrations"
 ```
+
+## Testing
+
+if you like to run `PEST` testing just use this command
+
+```bash
+composer test
+```
+
+## Code Style
+
+if you like to fix the code style just use this command
+
+```bash
+composer format
+```
+
+## PHPStan
+
+if you like to check the code by `PHPStan` just use this command
+
+```bash
+composer analyse
+```
+
 
 ## Other Filament Packages
 

@@ -4,7 +4,6 @@ namespace TomatoPHP\FilamentDeveloperGate;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
-use Illuminate\View\View;
 use TomatoPHP\FilamentDeveloperGate\Pages\DeveloperGate;
 
 class FilamentDeveloperGatePlugin implements Plugin
@@ -18,7 +17,7 @@ class FilamentDeveloperGatePlugin implements Plugin
     {
         $panel
             ->pages([
-                DeveloperGate::class
+                DeveloperGate::class,
             ]);
     }
 
@@ -29,6 +28,6 @@ class FilamentDeveloperGatePlugin implements Plugin
 
     public static function make(): static
     {
-        return new static();
+        return new static;
     }
 }
