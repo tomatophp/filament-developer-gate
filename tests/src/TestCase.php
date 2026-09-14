@@ -18,6 +18,7 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\Attributes\WithEnv;
+use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
@@ -25,6 +26,7 @@ use TomatoPHP\FilamentDeveloperGate\FilamentDeveloperGateServiceProvider;
 use TomatoPHP\FilamentDeveloperGate\Tests\Models\User;
 
 #[WithEnv('DB_CONNECTION', 'testing')]
+#[WithMigration]
 abstract class TestCase extends BaseTestCase
 {
     use LazilyRefreshDatabase;
@@ -61,6 +63,7 @@ abstract class TestCase extends BaseTestCase
     {
 
         tap($app['config'], function (Repository $config) {
+            $config->set('auth.providers.users.model', User::class);
             $config->set('database.default', 'testing');
             $config->set('database.connections.testing', [
                 'driver' => 'sqlite',

@@ -11,6 +11,13 @@
 
 Secure your selected route by using a middleware with static password for developers only
 
+## Version Compatibility
+
+| Plugin | Filament | Laravel | PHP |
+|--------|----------|---------|-----|
+| 5.x    | 5.x      | 12.x, 13.x | 8.2+ |
+| 4.x    | 4.x      | 11.x, 12.x | 8.2+ |
+
 ## Screenshots
 
 ![Login](https://raw.githubusercontent.com/tomatophp/filament-developer-gate/master/arts/login.png)

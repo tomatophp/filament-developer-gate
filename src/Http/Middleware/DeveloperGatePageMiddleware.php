@@ -24,7 +24,7 @@ class DeveloperGatePageMiddleware extends Middleware
             return $next($request);
         }
 
-        return redirect()->to(config('filament.developer-gate.redirect'));
+        return redirect()->to(config('filament-developer-gate.redirect'));
     }
 
     private function routeIsNotDeveloperGate(bool $check = true)

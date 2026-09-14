@@ -11,6 +11,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Concerns\InteractsWithSchemas;
 use Filament\Schemas\Contracts\HasSchemas;
 use Filament\Schemas\Schema;
+use Illuminate\Validation\Rules\Password;
 use TomatoPHP\FilamentDeveloperGate\Http\Middleware\DeveloperGatePageMiddleware;
 
 class DeveloperGate extends Page implements HasSchemas
@@ -66,7 +67,7 @@ class DeveloperGate extends Page implements HasSchemas
                         ->password()
                         ->revealable(filament()->arePasswordsRevealable())
                         ->required(fn ($record) => ! $record)
-                        ->rule(\Illuminate\Validation\Rules\Password::default()),
+                        ->rule(Password::default()),
                 ])
                 ->footerActions([
                     Action::make('login')
@@ -85,7 +86,7 @@ class DeveloperGate extends Page implements HasSchemas
         if ($password == config('filament-developer-gate.password')) {
             session()->put('developer_password', $password);
 
-            return redirect()->to(session()->get('developer_old_page'));
+            return redirect()->to(session()->get('developer_old_page') ?: config('filament-developer-gate.redirect'));
         }
 
         Notification::make()

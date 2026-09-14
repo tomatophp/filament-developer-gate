@@ -3,6 +3,7 @@
 namespace TomatoPHP\FilamentDeveloperGate;
 
 use Illuminate\Support\ServiceProvider;
+use TomatoPHP\FilamentDeveloperGate\Console\FilamentDeveloperGateInstall;
 
 class FilamentDeveloperGateServiceProvider extends ServiceProvider
 {
@@ -10,7 +11,7 @@ class FilamentDeveloperGateServiceProvider extends ServiceProvider
     {
         // Register generate command
         $this->commands([
-            \TomatoPHP\FilamentDeveloperGate\Console\FilamentDeveloperGateInstall::class,
+            FilamentDeveloperGateInstall::class,
         ]);
 
         // Register Config file

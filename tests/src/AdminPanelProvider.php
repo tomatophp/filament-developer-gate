@@ -15,6 +15,8 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use TomatoPHP\FilamentDeveloperGate\FilamentDeveloperGatePlugin;
+use TomatoPHP\FilamentDeveloperGate\Tests\Pages\SecretPage;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -28,8 +30,9 @@ class AdminPanelProvider extends PanelProvider
             ->registration()
             ->pages([
                 Pages\Dashboard::class,
+                SecretPage::class,
             ])
-            ->plugin(\TomatoPHP\FilamentDeveloperGate\FilamentDeveloperGatePlugin::make())
+            ->plugin(FilamentDeveloperGatePlugin::make())
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
