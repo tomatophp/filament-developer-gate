@@ -20,6 +20,11 @@ Secure your selected route by using a middleware with static password for develo
 
 ## Screenshots
 
+Try it live on [demo.tomatophp.com](https://demo.tomatophp.com).
+
+![Demo dark](https://raw.githubusercontent.com/tomatophp/filament-developer-gate/master/arts/demo-dark.png)
+![Demo light](https://raw.githubusercontent.com/tomatophp/filament-developer-gate/master/arts/demo-light.png)
+
 ![Login](https://raw.githubusercontent.com/tomatophp/filament-developer-gate/master/arts/login.png)
 ![Logout](https://raw.githubusercontent.com/tomatophp/filament-developer-gate/master/arts/logout-action.png)
 ![Logout Confirm](https://raw.githubusercontent.com/tomatophp/filament-developer-gate/master/arts/logout-confirm.png)
