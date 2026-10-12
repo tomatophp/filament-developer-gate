@@ -2,6 +2,12 @@
     "name": "tomatophp/filament-developer-gate",
     "type": "library",
     "description": "Secure your selected route by using a middleware with static password for developers only",
+    "homepage": "https://tomatophp.com/en/plugins/filament-developer-gate",
+    "support": {
+        "issues": "https://github.com/tomatophp/filament-developer-gate/issues",
+        "source": "https://github.com/tomatophp/filament-developer-gate",
+        "docs": "https://tomatophp.com/en/plugins/filament-developer-gate"
+    },
     "keywords": [
         "php",
         "laravel",
